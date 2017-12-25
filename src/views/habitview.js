@@ -79,7 +79,7 @@ export default class HabitView extends Component {
 						days.push(i);
 					}
 				}
-				if (days.length == 0){
+				if (days.length === 0){
 					alert("No days of the week were selected");
 					return;
 				}

@@ -10,6 +10,10 @@ import {isAlphanumeric} from '../utilities/stringutilities';
 import User from '../models/user';
 import HabitView from './habitview';
 
+/**
+ * Displays information about all of the habits the user has created, and allows them to create
+ * new ones
+ */
 export default class HabitsPage extends Component {
 
 	constructor(props){

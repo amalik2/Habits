@@ -11,8 +11,12 @@ import Habit from '../models/habit';
 import HabitEvent from '../models/habitevent';
 import Location from '../models/location';
 
-const sideBarOptions = ["Home","Habits","Habit History", "Followed Users", "Follow Requests", "Search Users"];
+// options in the side bar menu
+const sideBarOptions = ["Home","Habits","Habit History", "Followed Users", "Follow Requests", "Search Users", "Sign Out"];
 
+/**
+ * Displays information the user sees immediately after signing in
+ */
 export default class HomePage extends Component {
 	constructor(props){
 		super(props);
@@ -20,7 +24,10 @@ export default class HomePage extends Component {
 			// the currently signed in user
 			user: new User(props.user),
 			// the index of the menu the user is currently viewing (corresponds to an option in sideBarOptions)
-			menuIndex: 0
+			menuIndex: 0,
+			
+			// the function to call when the user selects the sign out button
+			signOut: props.signOut
 		};
 		
 		for (var i = 0; i < 25; ++i)
@@ -33,11 +40,19 @@ export default class HomePage extends Component {
 	}
 	
 	onSideBarItemClicked(item){
-		// update the index of the currently selected menu to the new item
-		this.setState({
-				menuIndex: sideBarOptions.findIndex((menu) => (menu === item))
-			}
-		);
+		
+		const index = sideBarOptions.findIndex((menu) => (menu === item))
+		
+		// the last option is the sign out button
+		if (index === sideBarOptions.length - 1){
+			this.state.signOut();
+		} else {
+			// update the index of the currently selected menu to the new item
+			this.setState({
+					menuIndex: index
+				}
+			);
+		}
 	}
 	
 	onTodaysTaskChecked(habitName){

@@ -52,7 +52,7 @@ class App extends Component {
 		  return (
 				<div align='center'>
 					{this.getHeader()}
-					<HomePage user={this.state.loggedIn} signOut={this.state.signOut} />
+					<HomePage user={this.state.loggedIn} signOut={this.signOut} />
 				</div>
 			);
 	  } else {
