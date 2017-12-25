@@ -69,6 +69,34 @@ export default class User {
 	}
 	
 	/**
+	 * Remove the habit with the specified ID
+	 * @param id the ID of the habit to delete
+	 */
+	removeHabitById(id){
+		const length = this.habits.length;
+		for (var i = 0; i < length; ++i){
+			if (this.habits[i].getId() === id){
+				this.habits.splice(i, 1);
+				return;
+			}
+		}
+	}
+	
+	/**
+	 * Get a habit by it's unique ID
+	 * @param id the ID of the habit to get
+	 * @return the habit with the specified ID if found, or null otherwise
+	 */
+	getHabitById(id){
+		for (var habit of this.habits){
+			if (habit.getId() === id){
+				return habit;
+			}
+		}
+		return null;
+	}
+	
+	/**
 	 * @param title the title that the returned habit must have
 	 * @return the habit with the specified title if found, or null otherwise
 	 */
@@ -94,4 +122,21 @@ export default class User {
 			}
 		}
 	}
+	
+	/**
+	 * Get the user's list of all completed habit events, with the most recent ones coming first
+	 * @return the list of the user's habit events, sorted in descending order by date
+	 */
+	getHabitHistory(){
+		var events = []
+		for (let habit of this.habits){
+			let completions = habit.getEvents();
+			for (let event of completions)
+				events.push(event);
+		}
+		
+		events.sort((event1, event2) => event1.getDate() < event2.getDate());
+		return events;
+	}
+	
 }

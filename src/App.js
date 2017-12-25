@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import {isAlphanumeric} from './utilities/stringutilities';
+
 import HomePage from './views/home';
 
 class App extends Component {
@@ -23,6 +25,11 @@ class App extends Component {
 		
 		if (this.state.name.length === 0){
 			alert("Empty name");
+			return;
+		}
+		
+		if (!isAlphanumeric(this.state.name)){
+			alert("Invalid name selected. Names must be alphanumeric.");
 			return;
 		}
 		

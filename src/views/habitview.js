@@ -8,6 +8,9 @@ import {formatDate, isValid} from '../utilities/dateutilities';
 
 const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
+/**
+ * Create a new habit, or edit an existing one's details
+ */
 export default class HabitView extends Component {
 
 	constructor(props){
@@ -37,6 +40,8 @@ export default class HabitView extends Component {
 			for (let i of this.state.habit.getDaysOfWeek())
 				this.state.daysOfWeekChecked[i] = true;
 			
+		} else {
+			this.state.dateInputText = formatDate(new Date());
 		}
 		
 		this.buttonClicked = this.buttonClicked.bind(this);
@@ -153,7 +158,7 @@ export default class HabitView extends Component {
 				<br />
 				<label>
 					Start Date
-					<input type="date" value={this.state.dateInputText} onChange={this.onDateChanged} />
+					<input type="textbox" value={this.state.dateInputText} onChange={this.onDateChanged} />
 				</label>
 				<br />
 				<label>

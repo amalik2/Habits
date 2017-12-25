@@ -2,11 +2,12 @@ import {removeFromArray} from '../utilities/arrayutilities';
 import {formatDate} from '../utilities/dateutilities';
 
 import HabitEvent from './habitevent';
+import Queryable from './queryable';
 
 /**
  * A habit created by a user of the application
  */
-export default class Habit {
+export default class Habit extends Queryable {
 
 	/**
 	 * Construct a new habit
@@ -16,6 +17,7 @@ export default class Habit {
 	 * @param daysOfWeek array of what days of the week the habit must be completed on (0=Sunday, 6=Saturday)
 	 */
 	constructor(title, reason, startDate, daysOfWeek){
+		super();
 		// the habit's name
 		this.title = title;
 		
@@ -98,6 +100,7 @@ export default class Habit {
 	}
 	
 	addEvent(event){
+		event.setHabitId(this.id);
 		this.events.push(event);
 	}
 	
