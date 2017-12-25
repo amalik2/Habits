@@ -47,13 +47,12 @@ class App extends Component {
 	}
 	
   render() {
-	  
+	  //<button onClick={this.signOut}>Sign Out</button>
 	  if (this.state.loggedIn != null){
 		  return (
 				<div align='center'>
 					{this.getHeader()}
 					<HomePage user={this.state.loggedIn} signOut={this.state.signOut} />
-					<button onClick={this.signOut}>Sign Out</button>
 				</div>
 			);
 	  } else {

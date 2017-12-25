@@ -4,9 +4,9 @@ import Habit from '../models/habit';
 
 import CheckableList from './checkablelist';
 
-import {formatDate} from '../utilities/dateutilities';
+import {formatDate, isValid} from '../utilities/dateutilities';
 
-const DAYS_OF_WEEK = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 export default class HabitView extends Component {
 
@@ -19,7 +19,10 @@ export default class HabitView extends Component {
 			dateInputText: "",
 			titleInputText: "",
 			reasonInputText: "",
-			daysOfWeekChecked: []
+			daysOfWeekChecked: [],
+			
+			onReturn: props.onReturn,
+			validateTitle: props.validateTitle
 		};
 		
 		// initialize all days of the week to be unselected
@@ -36,25 +39,69 @@ export default class HabitView extends Component {
 			
 		}
 		
-		this.save = this.save.bind(this);
+		this.buttonClicked = this.buttonClicked.bind(this);
 		this.onTitleChanged = this.onTitleChanged.bind(this);
 		this.onReasonChanged = this.onReasonChanged.bind(this);
 		this.onDateChanged = this.onDateChanged.bind(this);
 		this.handleDayChanged = this.handleDayChanged.bind(this);
 	}
 	
-	getHabit(){
-		return this.state.habit;
-	}
-	
-	save(event){
-		// TODO: make sure title is unique
-		// TODO: make sure date is valid
-		if (this.state.habit == null){
+	/**
+	 * Handle the user clicking the cancel or confirm button
+	 * @param event the event triggered by the button click
+	 * @return the habit if confirm was clicked, or null otherwise
+	 * @return undefined if confirm was clicked but the habit information was invalid
+	 */
+	buttonClicked(event){
+		
+		const cancel = event.target.value === "Return";
+		
+		// the habit that will be returned if cancel is false
+		let newHabit = null;
+		
+		// if the title is invalid, or a duplicate, prevent it from being used
+		if (!cancel){
+			if ((!this.state.validateTitle(this.state.titleInputText) && (this.state.habit == null || this.state.habit.getTitle() !== this.state.titleInputText))){
+				alert("The title was taken, or it was invalid");
+				return;
+			} else {
 			
-		} else {
-			
+				let date = new Date(this.state.dateInputText);
+				if (!isValid(date)){
+					alert("The date was invalid");
+					return;
+				}
+				
+				// days of the week the habit will occur on
+				let days = [];
+				for (let i = 0; i < this.state.daysOfWeekChecked.length; ++i){
+					if (this.state.daysOfWeekChecked[i]){
+						days.push(i);
+					}
+				}
+				if (days.length == 0){
+					alert("No days of the week were selected");
+					return;
+				}
+				
+				// create new habit
+				if (this.state.habit == null){
+					newHabit = new Habit(this.state.titleInputText, this.state.reasonInputText, date, days);
+					this.setState({
+						habit: newHabit
+					});
+				} else {
+					// update the old habit's details
+					this.state.habit.setTitle(this.state.titleInputText);
+					this.state.habit.setReason(this.state.reasonInputText);
+					this.state.habit.setStartDate(date);
+					this.state.habit.setDaysOfWeek(days);
+					newHabit = this.state.habit;
+				}
+			}
 		}
+		
+		this.state.onReturn(cancel ? null : newHabit);
 	}
 	
 	onTitleChanged(event){
@@ -78,7 +125,7 @@ export default class HabitView extends Component {
 	handleDayChanged(day){
 		
 		var list = this.state.daysOfWeekChecked;
-		const index = DAYS_OF_WEEK.indexOf(day);
+		const index = daysOfWeek.indexOf(day);
 		
 		list[index] = !list[index];
 		
@@ -92,7 +139,8 @@ export default class HabitView extends Component {
 		var buttonText = (this.state.habit == null) ? "Create" : "Edit";
 		
 		return (
-			<form onSubmit={this.save}>
+			<div>
+			<form>
 				<label>
 					Title
 					<input type="textbox" value={this.state.titleInputText} onChange={this.onTitleChanged} />
@@ -111,11 +159,13 @@ export default class HabitView extends Component {
 				<label>
 					Frequency
 					<br />
-					<CheckableList items={DAYS_OF_WEEK} checked={this.state.daysOfWeekChecked} onClick={this.handleDayChanged} />
+					<CheckableList items={daysOfWeek} checked={this.state.daysOfWeekChecked} onClick={(day) => this.handleDayChanged(day)} />
 				</label>
 				<br />
-				<input type="submit" value={buttonText} />
 			</form>
+			<button onClick={this.buttonClicked} value="Create">{buttonText}</button>
+			<button onClick={this.buttonClicked} value="Return">Return</button>
+			</div>
 		);
 	}
 

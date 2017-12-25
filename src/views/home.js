@@ -40,10 +40,6 @@ export default class HomePage extends Component {
 		);
 	}
 	
-	toCreateHabit(event){
-		// TODO: create habit page
-	}
-	
 	onTodaysTaskChecked(habitName){
 		// TODO: create event page
 	}
@@ -60,7 +56,6 @@ export default class HomePage extends Component {
 				  Welcome, {this.state.user.getName()}!
 				</p>
 				<TodaysTasks tasks={this.state.user.getTodaysTasks()} onChecked={this.onTodaysTaskChecked} />
-				<button onClick='toCreateHabit()'>Create Habit</button>
 			  </div>);
 		} else if (index === 1){		// habits
 			return (

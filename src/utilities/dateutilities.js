@@ -41,3 +41,15 @@ export function formatDate(date){
 	
 	//return date.toString("MMMM dd, YYYY");
 }
+
+/**
+ * Get whether the specified date is valid or not
+ * @param date the date to check the validity of
+ * @return whether the date is valid or not
+ */
+export function isValid(date){
+	if (!date)
+		return false;
+	
+	return !isNaN(date.getTime());
+}
