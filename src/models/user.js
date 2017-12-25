@@ -80,4 +80,18 @@ export default class User {
 		}
 		return null;
 	}
+	
+	/**
+	 * Remove the habit with the specified title
+	 * @param title the title that the returned habit must have
+	 */
+	removeHabitByTitle(title){
+		const length = this.habits.length;
+		for (var i = 0; i < length; ++i){
+			if (this.habits[i].getTitle() === title){
+				this.habits.splice(i, 1);
+				return;
+			}
+		}
+	}
 }

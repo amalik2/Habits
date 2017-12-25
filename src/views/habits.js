@@ -28,6 +28,7 @@ export default class HabitsPage extends Component {
 		this.onReturn = this.onReturn.bind(this);
 		this.createHabitClicked = this.createHabitClicked.bind(this);
 		this.isValidTitle = this.isValidTitle.bind(this);
+		this.deleteHabit = this.deleteHabit.bind(this);
 	}
 	
 	isValidTitle(title){
@@ -46,6 +47,14 @@ export default class HabitsPage extends Component {
 	createHabitClicked(event){
 		this.setState({
 			createHabit: true
+		});
+	}
+	
+	deleteHabit(event){
+		this.state.user.removeHabitByTitle(event.target.value);
+		// update the habits table
+		this.setState({
+			user: this.state.user
 		});
 	}
 	
@@ -87,6 +96,7 @@ export default class HabitsPage extends Component {
 						<th>Last Completion</th>
 						<th>Start Date</th>
 						<th></th>
+						<th></th>
 					</tr>
 					
 					{
@@ -98,6 +108,9 @@ export default class HabitsPage extends Component {
 								<td>{formatDate(habit.getStartDate())}</td>
 								<td>
 									<button onClick={this.editHabit} value={habit.getTitle()}>Edit</button>
+								</td>
+								<td>
+									<button onClick={this.deleteHabit} value={habit.getTitle()}>Delete</button>
 								</td>
 							</tr>
 						))
