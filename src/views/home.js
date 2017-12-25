@@ -7,6 +7,7 @@ import Sidebar from './sidebar';
 import Habits from './habits';
 import EventView from './eventview';
 import HabitHistory from './habithistory';
+import FollowRequests from './followrequests';
 
 import User from '../models/user';
 import Habit from '../models/habit';
@@ -131,6 +132,7 @@ export default class HomePage extends Component {
 		}  else if (index === 4){		// follow requests
 			return (
 				<div className="App">
+					<FollowRequests user={this.state.user} />
 					<Sidebar items={sideBarOptions}
 						onItemClicked={this.onSideBarItemClicked} />
 				</div>

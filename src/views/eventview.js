@@ -30,6 +30,13 @@ export default class EventView extends Component {
 			onReturn: props.onReturn
 		};
 		
+		if (this.state.event != null){
+			this.state.commentInput = this.state.event.getComment();
+			this.state.dateInput = formatDate(this.state.event.getDate());
+			this.state.locationInputLat = this.state.event.getLocation().getLatitude();
+			this.state.locationInputLong = this.state.event.getLocation().getLongitude();
+		}
+		
 		this.buttonClicked = this.buttonClicked.bind(this);
 		this.commentChanged = this.commentChanged.bind(this);
 		this.dateChanged = this.dateChanged.bind(this);

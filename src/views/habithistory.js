@@ -29,6 +29,7 @@ export default class HabitHistory extends Component {
 		this.editEvent = this.editEvent.bind(this);
 		this.onEventReturn = this.onEventReturn.bind(this);
 		
+		// TODO: should this be recalculated when events are removed?
 		this.history = this.state.user.getHabitHistory();
 	}
 	
@@ -39,6 +40,10 @@ export default class HabitHistory extends Component {
 	removeEvent(event){
 		const habitId = this.history[event.target.value].getHabitId();
 		this.state.user.removeHabitById(habitId);
+		// refresh the view
+		this.setState({
+			user: this.state.user
+		});
 	}
 	
 	/**
@@ -62,7 +67,7 @@ export default class HabitHistory extends Component {
 	
 	render(){
 		
-		if (this.state.editingEventIndex != NO_EVENT_EDITED){
+		if (this.state.editingEventIndex !== NO_EVENT_EDITED){
 			let event = this.history[this.state.editingEventIndex];
 			return <EventView event={event} habitTitle={this.state.user.getHabitById(event.getHabitId()).getTitle()} onReturn={this.onEventReturn} />;
 		}

@@ -30,9 +30,6 @@ export default class Habit extends Queryable {
 		// what days of the week the habit must be completed on (0=Sunday, 6=Saturday)
 		this.daysOfWeek = daysOfWeek;
 		
-		// unique ID
-		this.id = ""; // TODO: generate unique ID
-		
 		// completions of this habit
 		this.events = [];
 	}
@@ -100,7 +97,7 @@ export default class Habit extends Queryable {
 	}
 	
 	addEvent(event){
-		event.setHabitId(this.id);
+		event.setHabitId(this.getId());
 		this.events.push(event);
 	}
 	

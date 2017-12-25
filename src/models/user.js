@@ -2,25 +2,106 @@ import Habit from '../models/habit';
 
 import {removeFromArray} from '../utilities/arrayutilities';
 
+import Queryable from './queryable';
+
 /**
  * Represents a unique user of the application
  */
  
-export default class User {
+export default class User extends Queryable {
 	
 	/**
 	 * Construct a new user
 	 * @param name the new user's unique name
 	 */
 	constructor(name){
+		super();
 		// the user's unique name
 		this.name = name;
 		
 		// the user's list of created habits
 		this.habits = [];
 		
-		// unique ID
-		this.id = ""; // TODO: generate unique ID
+		// unique id of all users that this user follows
+		this.followedUsers = [];
+		
+		// unique id of all users that sent this user a follow request
+		this.followRequests = [];
+	}
+	
+	/**
+	 * Return a list of all users that this user has follow requests from
+	 */
+	getFollowRequests(){
+		// TODO: query from DB using ids
+		return this.followRequests;
+	}
+	
+	/**
+	 * Return a list of all users that this user is following
+	 */
+	getFollowedUsers(){
+		// TODO: query from DB using ids
+		return this.followedUsers;
+	}
+	
+	/**
+	 * Get whether this user is following the specified user
+	 * @param user the user to check whether this user is following or not
+	 * @return whether this user is following the specified user
+	 */
+	isFollowing(user){
+		return this.followedUsers.indexOf(user.getId()) !== -1;
+	}
+	
+	/**
+	 * Have this user unfollow the specified user
+	 * @param user the user to unfollow
+	 */
+	unfollow(user){
+		removeFromArray(this.followedUsers, user.getId());
+	}
+	
+	/**
+	 * Accept the follow request from the specified user
+	 * @param user the user this user should accept the request from
+	 */
+	acceptFollowRequest(user){
+		user.followedUsers.push(this.getId());
+		removeFromArray(this.followRequests, user.getId());
+	}
+	
+	/**
+	 * Remove the follow request from the specified user
+	 * @param user the user this user should remove the request from
+	 */
+	removeFollowRequest(user){
+		removeFromArray(this.followRequests, user.getId());
+	}
+	
+	/**
+	 * Remove the follow request from the specified user
+	 * @param id the id of the user this user should remove the request from
+	 */
+	removeFollowRequestById(id){
+		removeFromArray(this.followRequests, id);
+	}
+	
+	/**
+	 * Add a follow request from the specified user
+	 * @param user the user this user should add a follow request from
+	 */
+	addFollowRequest(user){
+		this.followRequests.push(user.getId());
+	}
+	
+	/**
+	 * Get whether this user has a follow request from the specified user
+	 * @param user the user to check whether this user has a follow request from
+	 * @return whether this user has a follow request from the specified user
+	 */
+	hasFollowRequest(user){
+		return this.followRequests.indexOf(user.getId()) !== -1;
 	}
 	
 	/**
