@@ -67,4 +67,17 @@ export default class User {
 	getHabits(){
 		return this.habits;
 	}
+	
+	/**
+	 * @param title the title that the returned habit must have
+	 * @return the habit with the specified title if found, or null otherwise
+	 */
+	getHabitByTitle(title){
+		for (var habit of this.habits){
+			if (habit.getTitle() === title){
+				return habit;
+			}
+		}
+		return null;
+	}
 }

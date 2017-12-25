@@ -1,4 +1,5 @@
 import {removeFromArray} from '../utilities/arrayutilities';
+import {formatDate} from '../utilities/dateutilities';
 
 import HabitEvent from './habitevent';
 
@@ -102,6 +103,21 @@ export default class Habit {
 	
 	removeEvent(event){
 		removeFromArray(this.events, event);
+	}
+	
+	getTimesCompleted(){
+		return this.events.length;
+	}
+	
+	/**
+	 * Get a string representation of the last date this event was completed at
+	 * @return the last completion date as a string, or "Never" if it has never been completed
+	 */
+	getLastCompletionString(){
+		const lastCompletion = this.getLastCompletionDate();
+		if (lastCompletion == null)
+			return "Never";
+		return formatDate(lastCompletion);
 	}
 	
 }

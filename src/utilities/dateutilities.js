@@ -22,3 +22,22 @@ export function isSameDate(one, two){
 	
 	return !(one.getTime() < two.getTime()) && !(two.getTime() < one.getTime());
 }
+
+/**
+ * Get the specified date as a string, in the form: MMMM dd, YYYY
+ * @param date the date to convert to a string (not null)
+ * @return the date as a string
+ */
+export function formatDate(date){
+	
+	const monthNames = [
+		"January", "February", "March",
+		"April", "May", "June", "July",
+		"August", "September", "October",
+		"November", "December"
+	  ];
+
+	return monthNames[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
+	
+	//return date.toString("MMMM dd, YYYY");
+}

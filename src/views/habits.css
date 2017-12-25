@@ -1,0 +1,11 @@
+table.habitsTable{
+	width: 50%;
+    background-color: #000000;
+}
+
+table.habitsTable tr:nth-child(even) {
+    background-color: #FFFFFF;
+}
+table.habitsTable tr:nth-child(odd) {
+    background-color: #A9A9A9;
+}
