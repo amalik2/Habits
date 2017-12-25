@@ -120,4 +120,22 @@ export default class Habit {
 		return formatDate(lastCompletion);
 	}
 	
+	/**
+	 * Get the days of the weke this habit must occur on as a list of integers
+	 * Sunday=0, Saturday=6
+	 * @return list of all days of the week this habit must occur on
+	 */
+	getDaysOfWeek(){
+		return this.daysOfWeek;
+	}
+	
+	/**
+	 * Set the days of the weke this habit must occur on as a list of integers
+	 * Sunday=0, Saturday=6
+	 * @param days the list of all days of the week this habit must occur on
+	 */
+	setDaysOfWeek(days){
+		this.daysOfWeek = days;
+	}
+	
 }
