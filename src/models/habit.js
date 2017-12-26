@@ -11,10 +11,10 @@ export default class Habit extends Queryable {
 
 	/**
 	 * Construct a new habit
-	 * @param title the habit's title
-	 * @param reason the user's reason for creating the habit
-	 * @param startDate the date the user wants to start the habit at
-	 * @param daysOfWeek array of what days of the week the habit must be completed on (0=Sunday, 6=Saturday)
+	 * @param {String} title the habit's title
+	 * @param {String} reason the user's reason for creating the habit
+	 * @param {Date} startDate the date the user wants to start the habit at
+	 * @param {[Int]} daysOfWeek array of what days of the week the habit must be completed on (0=Sunday, 6=Saturday)
 	 */
 	constructor(title, reason, startDate, daysOfWeek){
 		super();
@@ -34,24 +34,38 @@ export default class Habit extends Queryable {
 		this.events = [];
 	}
 	
+	/**
+	 * Set the date this habit should start on
+	 * @param {Date} start the new start date of the habit
+	 */
 	setStartDate(start){
 		this.startDate = start;
 	}
 
+	/**
+	 * @return {Date} the date this habit should start on
+	 */
 	getStartDate(){
 		return this.startDate;
 	}
 	
+	/**
+	 * @return {String} the title of this habit
+	 */
 	getTitle(){
 		return this.title;
 	}
 	
+	/**
+	 * Sets the habit's title
+	 * @param {String} title the title of the habit
+	 */
 	setTitle(title){
 		this.title = title;
 	}
 	
 	/**
-	 * @return the date this habit was last completed at (or null, if it has never been completed)
+	 * @return {Date} the date this habit was last completed at (or null, if it has never been completed)
 	 */
 	getLastCompletionDate(){
 		
@@ -62,7 +76,7 @@ export default class Habit extends Queryable {
 	}
 	
 	/**
-	 * @return whether this habit needs to be completed today
+	 * @return {boolean} whether this habit needs to be completed today
 	 */
 	isActiveToday(){
 		
@@ -84,34 +98,55 @@ export default class Habit extends Queryable {
 		return false;
 	}
 	
+	/**
+	 * @return {String} the reason why this habit was made
+	 */
 	getReason(){
 		return this.reason;
 	}
 	
+	/**
+	 * Sets the reason why this habit was created
+	 * @param {String} reason the creator's reason for making this habit
+	 */
 	setReason(reason){
 		this.reason = reason;
 	}
 	
+	/**
+	 * @return {[HabitEvent]} the list of completed habit events falling under this habit
+	 */
 	getEvents(){
 		return this.events;
 	}
 	
+	/**
+	 * Adds a new successful habit completion to this habit
+	 * @param {HabitEvent} the event that was completed
+	 */
 	addEvent(event){
 		event.setHabitId(this.getId());
 		this.events.push(event);
 	}
 	
+	/**
+	 * Removes a habit completion from this habit
+	 * @param {HabitEvent} the event that should be removed
+	 */
 	removeEvent(event){
 		removeFromArray(this.events, event);
 	}
 	
+	/**
+	 * @return {Number} the number of times this habit was completed
+	 */
 	getTimesCompleted(){
 		return this.events.length;
 	}
 	
 	/**
-	 * Get a string representation of the last date this event was completed at
-	 * @return the last completion date as a string, or "Never" if it has never been completed
+	 * Gets a string representation of the last date this event was completed at
+	 * @return {String} the last completion date as a string, or "Never" if it has never been completed
 	 */
 	getLastCompletionString(){
 		const lastCompletion = this.getLastCompletionDate();
@@ -121,9 +156,9 @@ export default class Habit extends Queryable {
 	}
 	
 	/**
-	 * Get the days of the weke this habit must occur on as a list of integers
+	 * Gets the days of the weke this habit must occur on as a list of integers
 	 * Sunday=0, Saturday=6
-	 * @return list of all days of the week this habit must occur on
+	 * @return {[Int]} list of all days of the week this habit must occur on
 	 */
 	getDaysOfWeek(){
 		return this.daysOfWeek;
@@ -132,7 +167,7 @@ export default class Habit extends Queryable {
 	/**
 	 * Set the days of the weke this habit must occur on as a list of integers
 	 * Sunday=0, Saturday=6
-	 * @param days the list of all days of the week this habit must occur on
+	 * @param {[Int]} days the list of all days of the week this habit must occur on
 	 */
 	setDaysOfWeek(days){
 		this.daysOfWeek = days;
