@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import HabitEvent from '../models/habitevent';
 import Location from '../models/location';
 
-import {formatDate, isValid} from '../utilities/dateutilities';
+import {formatDate, isValid, isBefore, isSameDate} from '../utilities/dateutilities';
 
 /**
  * Create a new habit event, or edit an existing one's details
@@ -19,6 +19,8 @@ export default class EventView extends Component {
 			event: props.event,
 			// the title of the habit the event being viewed is part of
 			habitTitle: props.habitTitle,
+			// the date the habit was supposed to start on
+			habitStartDate: props.startDate,
 			
 			commentInput: "",
 			dateInput: "",
@@ -35,6 +37,8 @@ export default class EventView extends Component {
 			this.state.dateInput = formatDate(this.state.event.getDate());
 			this.state.locationInputLat = this.state.event.getLocation().getLatitude();
 			this.state.locationInputLong = this.state.event.getLocation().getLongitude();
+		} else {
+			this.state.dateInput = formatDate(new Date());
 		}
 		
 		this.buttonClicked = this.buttonClicked.bind(this);
@@ -67,6 +71,11 @@ export default class EventView extends Component {
 			}
 			if (date.getTime() > (new Date()).getTime()){
 				alert("The date was in the future");
+				return;
+			}
+			
+			if (isBefore(date, this.state.habitStartDate) && !isSameDate(date, this.state.habitStartDate)){
+				alert("The date must be after the habit was supposed to start");
 				return;
 			}
 			
@@ -124,22 +133,22 @@ export default class EventView extends Component {
 			<form>
 				<label>
 					Comment
-					<input type="textbox" value={this.state.commentInput} onChange={this.commentChanged} />
+					<input type="text" value={this.state.commentInput} onChange={this.commentChanged} />
 				</label>
 				<br />
 				<label>
 					Date
-					<input type="textbox" value={this.state.dateInput} onChange={this.dateChanged} />
+					<input type="text" value={this.state.dateInput} onChange={this.dateChanged} />
 				</label>
 				<br />
 				<label>
 					Latitude
-					<input type="textbox" value={this.state.locationInputLat} onChange={this.latitudeChanged} />
+					<input type="text" value={this.state.locationInputLat} onChange={this.latitudeChanged} />
 				</label>
 				<br />
 				<label>
 					Longitude
-					<input type="textbox" value={this.state.locationInputLong} onChange={this.longitudeChanged} />
+					<input type="text" value={this.state.locationInputLong} onChange={this.longitudeChanged} />
 				</label>
 				<br />
 			</form>

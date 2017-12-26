@@ -52,6 +52,8 @@ test("Error signing in or out of the application", () => {
 		<App />,
 	);
 	
+	expect(component.find('HomePage').length).toBe(0);
+	
 	const usernameForm = component.find('input');
 	const usernameInput = usernameForm.first();
 	const submit = usernameForm.at(1);
