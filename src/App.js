@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import {isAlphanumeric} from './utilities/stringutilities';
+import {getQueryable} from './utilities/queryutilities';
 
 import HomePage from './views/home';
 
@@ -19,6 +20,8 @@ class App extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.nameChange = this.nameChange.bind(this);
 		this.signOut = this.signOut.bind(this);
+		
+		getQueryable();
 	}
 	
 	handleSubmit(event){

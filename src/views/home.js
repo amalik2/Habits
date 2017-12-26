@@ -83,71 +83,50 @@ export default class HomePage extends Component {
 		});
 	}
 	
-	render(){
+	/** Add all items to display for the current page to the input list
+	 * @param items the list of all items to display
+	 */
+	getUniqueItemsToDisplay(items){
 		
 		const index = this.state.menuIndex;
 		
-		if (index === 0){				// home
+		if (index === 0){ // home
 		
 			if (this.state.completingHabit !== ""){
-				return (
-					<div>
-						<Sidebar items={sideBarOptions} onItemClicked={this.onSideBarItemClicked} />
-						<EventView event={null} habitTitle={this.state.completingHabit} onReturn={this.onEventReturn} />
-					</div>
+				items.push(<EventView event={null} habitTitle={this.state.completingHabit} onReturn={this.onEventReturn} />);
+			} else {
+				items.push(
+					<p className="App-intro">
+					  Welcome, {this.state.user.getName()}!
+					</p>,
+					<TodaysTasks tasks={this.state.user.getTodaysTasks()} onChecked={this.onTodaysTaskChecked} />
 				);
 			}
-		
-			return (<div className="App">
-				<Sidebar items={sideBarOptions}
-					onItemClicked={this.onSideBarItemClicked} />
-				<p className="App-intro">
-				  Welcome, {this.state.user.getName()}!
-				</p>
-				<TodaysTasks tasks={this.state.user.getTodaysTasks()} onChecked={this.onTodaysTaskChecked} />
-			  </div>);
 		} else if (index === 1){		// habits
-			return (
-				<div className="App">
-					<Sidebar items={sideBarOptions}
-						onItemClicked={this.onSideBarItemClicked} />
-					<Habits user={this.state.user} />
-				</div>
-			);
+			items.push(<Habits user={this.state.user} />);
 		}  else if (index === 2){		// habit history
-			return (
-				<div className="App">
-					<Sidebar items={sideBarOptions}
-						onItemClicked={this.onSideBarItemClicked} />
-					<HabitHistory user={this.state.user} />
-				</div>
-			);
+			items.push(<HabitHistory user={this.state.user} />);
 		}  else if (index === 3){		// followed users
-			return (
-				<div className="App">
-					<Sidebar items={sideBarOptions}
-						onItemClicked={this.onSideBarItemClicked} />
-				</div>
-			);
+		
 		}  else if (index === 4){		// follow requests
-			return (
-				<div className="App">
-					<FollowRequests user={this.state.user} />
-					<Sidebar items={sideBarOptions}
-						onItemClicked={this.onSideBarItemClicked} />
-				</div>
-			);
+			items.push(<FollowRequests user={this.state.user} />);
 		} else if (index === 5){		// search users
-			return (
-				<div className="App">
-				<Sidebar items={sideBarOptions}
-					onItemClicked={this.onSideBarItemClicked} />
-				</div>
-			);
+		
 		} else {						// shouldn't happen
-			return (
-				<p>Error</p>
-			);
+		
 		}
+		
+	}
+	
+	render(){
+		
+		var display = [<Sidebar items={sideBarOptions} onItemClicked={this.onSideBarItemClicked} />];
+		this.getUniqueItemsToDisplay(display);
+		
+		return (
+			<div className="App">
+				{display}
+			</div>
+		);
 	}
 }
