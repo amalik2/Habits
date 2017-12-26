@@ -6,37 +6,38 @@ import Queryable from './queryable';
 
 /**
  * A habit created by a user of the application
+ * @see HabitEvent
  */
 export default class Habit extends Queryable {
 
 	/**
-	 * Construct a new habit
-	 * @param {String} title the habit's title
-	 * @param {String} reason the user's reason for creating the habit
-	 * @param {Date} startDate the date the user wants to start the habit at
-	 * @param {[Int]} daysOfWeek array of what days of the week the habit must be completed on (0=Sunday, 6=Saturday)
+	 * Constructs a new Habit object
+	 * @param {String} title - the habit's title
+	 * @param {String} reason - the user's reason for creating the habit
+	 * @param {Date} startDate - the date the user wants to start the habit at
+	 * @param {[Int]} daysOfWeek - array of what days of the week the habit must be completed on (0=Sunday, 6=Saturday)
 	 */
 	constructor(title, reason, startDate, daysOfWeek){
 		super();
-		// the habit's name
+		// {String} the habit's name
 		this.title = title;
 		
-		// reason for creating this habit
+		// {String} reason for creating this habit
 		this.reason = reason;
 		
-		// the date the habit is started on
+		// {Date} the date the habit is started on
 		this.startDate = startDate;
 		
-		// what days of the week the habit must be completed on (0=Sunday, 6=Saturday)
+		// {[Int]} what days of the week the habit must be completed on (0=Sunday, 6=Saturday)
 		this.daysOfWeek = daysOfWeek;
 		
-		// completions of this habit
+		// {[HabitEvent]} completions of this habit
 		this.events = [];
 	}
 	
 	/**
-	 * Set the date this habit should start on
-	 * @param {Date} start the new start date of the habit
+	 * Sets the date this habit should start on
+	 * @param {Date} start - the new start date of the habit
 	 */
 	setStartDate(start){
 		this.startDate = start;
@@ -58,7 +59,7 @@ export default class Habit extends Queryable {
 	
 	/**
 	 * Sets the habit's title
-	 * @param {String} title the title of the habit
+	 * @param {String} title - the title of the habit
 	 */
 	setTitle(title){
 		this.title = title;
@@ -107,7 +108,7 @@ export default class Habit extends Queryable {
 	
 	/**
 	 * Sets the reason why this habit was created
-	 * @param {String} reason the creator's reason for making this habit
+	 * @param {String} reason - the creator's reason for making this habit
 	 */
 	setReason(reason){
 		this.reason = reason;
@@ -122,7 +123,7 @@ export default class Habit extends Queryable {
 	
 	/**
 	 * Adds a new successful habit completion to this habit
-	 * @param {HabitEvent} the event that was completed
+	 * @param {HabitEvent} event - the event that was completed
 	 */
 	addEvent(event){
 		event.setHabitId(this.getId());
@@ -131,7 +132,7 @@ export default class Habit extends Queryable {
 	
 	/**
 	 * Removes a habit completion from this habit
-	 * @param {HabitEvent} the event that should be removed
+	 * @param {HabitEvent} event - the event that should be removed
 	 */
 	removeEvent(event){
 		removeFromArray(this.events, event);
@@ -165,9 +166,9 @@ export default class Habit extends Queryable {
 	}
 	
 	/**
-	 * Set the days of the weke this habit must occur on as a list of integers
+	 * Sets the days of the weke this habit must occur on as a list of integers
 	 * Sunday=0, Saturday=6
-	 * @param {[Int]} days the list of all days of the week this habit must occur on
+	 * @param {[Int]} days - the list of all days of the week this habit must occur on
 	 */
 	setDaysOfWeek(days){
 		this.daysOfWeek = days;

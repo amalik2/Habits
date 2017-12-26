@@ -6,11 +6,11 @@ import Queryable from './queryable';
 export default class HabitEvent extends Queryable {
 
 	/**
-	 * Create a new habit event
-	 * @param {String} comment is text that describes the event
-	 * @param {Date} date is the date the event was completed on
-	 * @param {String} photo is an optional photo attached to the event
-	 * @param {Location} location is an optional location the event was completed at
+	 * Construct a new HabitEvent object
+	 * @param {String} comment - text that describes the event
+	 * @param {Date} date - the date the event was completed on
+	 * @param {String} photo - an optional photo attached to the event
+	 * @param {Location} location - an optional location the event was completed at
 	 */
 	constructor(comment, date, photo, location){
 		super();
@@ -40,7 +40,7 @@ export default class HabitEvent extends Queryable {
 	
 	/**
 	 * Sets the comment attached to this event
-	 * @param {String} comment the comment to attach to this event
+	 * @param {String} comment - the comment to attach to this event
 	 */
 	setComment(comment){
 		this.comment = comment;
@@ -55,7 +55,7 @@ export default class HabitEvent extends Queryable {
 	
 	/**
 	 * Sets the date this event was completed at
-	 * @param {Date} date the date this event was completed at
+	 * @param {Date} date - the date this event was completed at
 	 */
 	setDate(date){
 		this.date = date;
