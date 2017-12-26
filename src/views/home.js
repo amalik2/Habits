@@ -93,23 +93,23 @@ export default class HomePage extends Component {
 		if (index === 0){ // home
 		
 			if (this.state.completingHabit !== ""){
-				items.push(<EventView event={null} habitTitle={this.state.completingHabit} onReturn={this.onEventReturn} />);
+				items.push(<EventView key="event" event={null} habitTitle={this.state.completingHabit} onReturn={this.onEventReturn} />);
 			} else {
 				items.push(
-					<p className="App-intro">
+					<p key="welcome" className="App-intro">
 					  Welcome, {this.state.user.getName()}!
 					</p>,
-					<TodaysTasks tasks={this.state.user.getTodaysTasks()} onChecked={this.onTodaysTaskChecked} />
+					<TodaysTasks key="tasks" tasks={this.state.user.getTodaysTasks()} onChecked={this.onTodaysTaskChecked} />
 				);
 			}
 		} else if (index === 1){		// habits
-			items.push(<Habits user={this.state.user} />);
+			items.push(<Habits key="habits" user={this.state.user} />);
 		}  else if (index === 2){		// habit history
-			items.push(<HabitHistory user={this.state.user} />);
+			items.push(<HabitHistory key="history" user={this.state.user} />);
 		}  else if (index === 3){		// followed users
 		
 		}  else if (index === 4){		// follow requests
-			items.push(<FollowRequests user={this.state.user} />);
+			items.push(<FollowRequests key="requests" user={this.state.user} />);
 		} else if (index === 5){		// search users
 		
 		} else {						// shouldn't happen
