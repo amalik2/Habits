@@ -9,7 +9,7 @@ import {formatDate, isValid} from '../utilities/dateutilities';
 const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 /**
- * Create a new habit, or edit an existing one's details
+ * Allows the user to create a new habit
  */
 export default class HabitView extends Component {
 

@@ -6,7 +6,7 @@ import Location from '../models/location';
 import {formatDate, isValid, isBefore, isSameDate} from '../utilities/dateutilities';
 
 /**
- * Create a new habit event, or edit an existing one's details
+ * Allows the user to create a new habit event
  */
  // TODO: google maps for the lat/long selection
  // TODO: photo
@@ -32,14 +32,7 @@ export default class EventView extends Component {
 			onReturn: props.onReturn
 		};
 		
-		if (this.state.event != null){
-			this.state.commentInput = this.state.event.getComment();
-			this.state.dateInput = formatDate(this.state.event.getDate());
-			this.state.locationInputLat = this.state.event.getLocation().getLatitude();
-			this.state.locationInputLong = this.state.event.getLocation().getLongitude();
-		} else {
-			this.state.dateInput = formatDate(new Date());
-		}
+		this.state.dateInput = formatDate(new Date());
 		
 		this.buttonClicked = this.buttonClicked.bind(this);
 		this.commentChanged = this.commentChanged.bind(this);
@@ -83,19 +76,10 @@ export default class EventView extends Component {
 			// TODO: if location is invalid, set location = null;
 			
 			// create new event
-			if (this.state.event == null){
-				newEvent = new HabitEvent(this.state.commentInput, date, this.state.photoInput, location);
-				this.setState({
-					event: newEvent
-				});
-			} else {
-				// update the old habit's details
-				this.state.event.setComment(this.state.commentInput);
-				this.state.event.setPhoto(this.state.photoInput);
-				this.state.event.setDate(date);
-				this.state.event.setLocation(location);
-				newEvent = this.state.event;
-			}
+			newEvent = new HabitEvent(this.state.commentInput, date, this.state.photoInput, location);
+			this.setState({
+				event: newEvent
+			});
 		}
 		
 		this.state.onReturn(cancel ? null : newEvent);
@@ -125,8 +109,11 @@ export default class EventView extends Component {
 		});
 	}
 	
+	getConfirmButtonText(){
+		return "Create";
+	}
+	
 	render(){
-		var buttonText = (this.state.event == null) ? "Create" : "Edit";
 		
 		return (
 			<div>
@@ -152,7 +139,7 @@ export default class EventView extends Component {
 				</label>
 				<br />
 			</form>
-			<button onClick={this.buttonClicked} value="Create">{buttonText}</button>
+			<button onClick={this.buttonClicked} value="Create">{this.getConfirmButtonText()}</button>
 			<button onClick={this.buttonClicked} value="Return">Return</button>
 			</div>
 		);

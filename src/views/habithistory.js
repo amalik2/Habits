@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Habit from '../models/habit';
 
-import EventView from './eventview';
+import EditEventView from '../views/edithabiteventview';
 
 import {formatDate} from '../utilities/dateutilities';
 
@@ -69,7 +69,7 @@ export default class HabitHistory extends Component {
 		
 		if (this.state.editingEventIndex !== NO_EVENT_EDITED){
 			let event = this.history[this.state.editingEventIndex];
-			return <EventView event={event} habitTitle={this.state.user.getHabitById(event.getHabitId()).getTitle()} onReturn={this.onEventReturn} />;
+			return <EditEventView event={event} habitTitle={this.state.user.getHabitById(event.getHabitId()).getTitle()} onReturn={this.onEventReturn} />;
 		}
 		
 		var buttonText = (this.state.habit == null) ? "Create" : "Edit";
