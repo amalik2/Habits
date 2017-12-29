@@ -29,17 +29,17 @@ export default class HabitHistory extends Component {
 		this.editEvent = this.editEvent.bind(this);
 		this.onEventReturn = this.onEventReturn.bind(this);
 		
-		// TODO: should this be recalculated when events are removed?
 		this.history = this.state.user.getHabitHistory();
 	}
 	
 	/**
 	 * Handle the user clicking a delete event button
-	 * @param event the button click event that triggered this call
+	 * @param event - the button click event that triggered this call
 	 */
 	removeEvent(event){
 		const habitId = this.history[event.target.value].getHabitId();
 		this.state.user.removeHabitById(habitId);
+		this.history = this.state.user.getHabitHistory();
 		// refresh the view
 		this.setState({
 			user: this.state.user

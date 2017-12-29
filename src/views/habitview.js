@@ -13,12 +13,15 @@ const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Fri
  */
 export default class HabitView extends Component {
 
+	/**
+	 * Create a new HabitView object
+	 * @param props - Contains:
+	 * @param {void} onReturn - callback function when this view is exited
+	 * @param {boolean} validateTitle - callback function for validating whether a habit title is valid or not
+	 */
 	constructor(props){
 		super(props);
 		this.state = {
-			// the habit being displayed
-			habit: props.habit,
-			
 			dateInputText: "",
 			titleInputText: "",
 			reasonInputText: "",
@@ -42,12 +45,16 @@ export default class HabitView extends Component {
 		this.handleDayChanged = this.handleDayChanged.bind(this);
 	}
 	
+	/**
+	 * Handle the user clicking the cancel button
+	 * @param event - the event triggered by the button click
+	 */
 	onCancelClicked(event){
 		this.state.onReturn(null);
 	}
 	
 	/**
-	 * Handle the user clicking confirm button
+	 * Handle the user clicking the confirm button
 	 * @param event - the event triggered by the button click
 	 * @return {Habit} the new habit if confirm was clicked and the habit information was valid, null otherwise
 	 */
@@ -82,9 +89,6 @@ export default class HabitView extends Component {
 			
 			// create new habit
 			newHabit = new Habit(this.state.titleInputText, this.state.reasonInputText, date, days);
-			this.setState({
-				habit: newHabit
-			});
 		}
 		
 		this.state.onReturn(newHabit);

@@ -12,12 +12,17 @@ import {formatDate, isValid, isBefore, isSameDate} from '../utilities/dateutilit
  // TODO: photo
 export default class EventView extends Component {
 
+	/**
+	 * Create a new EventView object
+	 * @param props - Contains:
+	 * @param {String} habitTitle - the title of the habit this event is a part of
+	 * @param {Date} startDate - the date the habit was meant to start on
+	 * @param {void} onReturn - callback function for when the view is exited
+	 */
 	constructor(props){
 		super(props);
 		this.state = {
-			// the event being displayed
-			event: props.event,
-			// the title of the habit the event being viewed is part of
+			// the title of the habit the event being created is part of
 			habitTitle: props.habitTitle,
 			// the date the habit was supposed to start on
 			habitStartDate: props.startDate,
@@ -34,7 +39,8 @@ export default class EventView extends Component {
 		
 		this.state.dateInput = formatDate(new Date());
 		
-		this.buttonClicked = this.buttonClicked.bind(this);
+		this.onCancelClicked = this.onCancelClicked.bind(this);
+		this.onConfirmClicked = this.onConfirmClicked.bind(this);
 		this.commentChanged = this.commentChanged.bind(this);
 		this.dateChanged = this.dateChanged.bind(this);
 		this.latitudeChanged = this.latitudeChanged.bind(this);
@@ -42,47 +48,42 @@ export default class EventView extends Component {
 	}
 	
 	/**
-	 * Handle the user clicking the cancel or confirm button
-	 * @param event the event triggered by the button click
-	 * @return the event if confirm was clicked, or null otherwise
-	 * @return undefined if confirm was clicked but the event information was invalid
+	 * Handle the user clicking the cancel button
+	 * @param event - the event triggered by the button click
 	 */
-	buttonClicked(event){
+	onCancelClicked(event){
+		this.state.onReturn(null);
+	}
+	
+	/**
+	 * Handle the user clicking the confirm button
+	 * @param event - the event triggered by the button click
+	 * @return {HabitEvent} new habit event if all of the habit event's information was valid, null otherwise
+	 */
+	onConfirmClicked(event){
 		
-		const cancel = event.target.value === "Return";
-		
-		// the event that will be returned if cancel is false
-		let newEvent = null;
-		
-		// if the title is invalid, or a duplicate, prevent it from being used
-		if (!cancel){
-			
-			let date = new Date(this.state.dateInput);
-			if (!isValid(date)){
-				alert("The date was invalid");
-				return;
-			}
-			if (date.getTime() > (new Date()).getTime()){
-				alert("The date was in the future");
-				return;
-			}
-			
-			if (isBefore(date, this.state.habitStartDate) && !isSameDate(date, this.state.habitStartDate)){
-				alert("The date must be after the habit was supposed to start");
-				return;
-			}
-			
-			let location = new Location(this.state.locationInputLat, this.state.locationInputLong);
-			// TODO: if location is invalid, set location = null;
-			
-			// create new event
-			newEvent = new HabitEvent(this.state.commentInput, date, this.state.photoInput, location);
-			this.setState({
-				event: newEvent
-			});
+		let date = new Date(this.state.dateInput);
+		if (!isValid(date)){
+			alert("The date was invalid");
+			return null;
+		}
+		if (date.getTime() > (new Date()).getTime()){
+			alert("The date was in the future");
+			return null;
 		}
 		
-		this.state.onReturn(cancel ? null : newEvent);
+		if (isBefore(date, this.state.habitStartDate) && !isSameDate(date, this.state.habitStartDate)){
+			alert("The date must be after the habit was supposed to start");
+			return null;
+		}
+		
+		let location = new Location(this.state.locationInputLat, this.state.locationInputLong);
+		// TODO: if location is invalid, set location = null;
+		
+		// create new event
+		let newEvent = new HabitEvent(this.state.commentInput, date, this.state.photoInput, location);
+	
+		this.state.onReturn(newEvent);
 	}
 	
 	commentChanged(event){
@@ -139,8 +140,8 @@ export default class EventView extends Component {
 				</label>
 				<br />
 			</form>
-			<button onClick={this.buttonClicked} value="Create">{this.getConfirmButtonText()}</button>
-			<button onClick={this.buttonClicked} value="Return">Return</button>
+			<button onClick={this.onConfirmClicked} value="Create">{this.getConfirmButtonText()}</button>
+			<button onClick={this.onCancelClicked} value="Return">Return</button>
 			</div>
 		);
 	}

@@ -7,8 +7,16 @@ import {formatDate, isValid} from '../utilities/dateutilities';
  */
 export default class EditHabitView extends HabitView {
 
+/**
+	 * Create a new HabitView object
+	 * @param props - Contains:
+	 * @param {void} onReturn - callback function when this view is exited
+	 * @param {boolean} validateTitle - callback function for validating whether a habit title is valid or not
+	 * @param {Habit} habit - the habit being edited (not null)
+	 */
 	constructor(props){
-		super(props);		
+		super(props);
+		this.state.habit = props.habit;
 		this.state.dateInputText = formatDate(this.state.habit.getStartDate());
 		this.state.titleInputText = this.state.habit.getTitle();
 		this.state.reasonInputText = this.state.habit.getReason();
@@ -18,7 +26,7 @@ export default class EditHabitView extends HabitView {
 	}
 	
 	 /**
-	 * Handle the user clicking confirm button
+	 * Handle the user clicking the confirm button
 	 * @param event - the event triggered by the button click
 	 * @return {Habit} the altered habit if confirm was clicked and the habit information was valid, null otherwise
 	 */

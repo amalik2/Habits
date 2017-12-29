@@ -9,8 +9,18 @@ import {formatDate, isValid, isBefore, isSameDate} from '../utilities/dateutilit
  */
 export default class EditEventView extends EventView {
 
+/**
+	 * Create a new EventView object
+	 * @param props - Contains:
+	 * @param {String} habitTitle - the title of the habit this event is a part of
+	 * @param {Date} startDate - the date the habit was meant to start on
+	 * @param {void} onReturn - callback function for when the view is exited
+	 * @param {HabitEvent} event - the habit event that is being edited
+	 */
 	constructor(props){
 		super(props);
+		
+		this.state.event = props.event;
 		
 		this.state.commentInput = this.state.event.getComment();
 		this.state.dateInput = formatDate(this.state.event.getDate());
@@ -19,48 +29,37 @@ export default class EditEventView extends EventView {
 	}
 	
 	/**
-	 * Handle the user clicking the cancel or confirm button
-	 * @param event the event triggered by the button click
-	 * @return the event if confirm was clicked, or null otherwise
-	 * @return undefined if confirm was clicked but the event information was invalid
+	 * Handle the user clicking the confirm button
+	 * @param event - the event triggered by the button click
+	 * @return {HabitEvent} edited habit event if all of the habit event's information was valid, null otherwise
 	 */
-	buttonClicked(event){
+	onConfirmClicked(event){
 		
-		const cancel = event.target.value === "Return";
-		
-		// the event that will be returned if cancel is false
-		let newEvent = null;
-		
-		// if the title is invalid, or a duplicate, prevent it from being used
-		if (!cancel){
-			
-			let date = new Date(this.state.dateInput);
-			if (!isValid(date)){
-				alert("The date was invalid");
-				return;
-			}
-			if (date.getTime() > (new Date()).getTime()){
-				alert("The date was in the future");
-				return;
-			}
-			
-			if (isBefore(date, this.state.habitStartDate) && !isSameDate(date, this.state.habitStartDate)){
-				alert("The date must be after the habit was supposed to start");
-				return;
-			}
-			
-			let location = new Location(this.state.locationInputLat, this.state.locationInputLong);
-			// TODO: if location is invalid, set location = null;
-			
-			// update the old habit's details
-			this.state.event.setComment(this.state.commentInput);
-			this.state.event.setPhoto(this.state.photoInput);
-			this.state.event.setDate(date);
-			this.state.event.setLocation(location);
-			newEvent = this.state.event;
+		let date = new Date(this.state.dateInput);
+		if (!isValid(date)){
+			alert("The date was invalid");
+			return null;
+		}
+		if (date.getTime() > (new Date()).getTime()){
+			alert("The date was in the future");
+			return null;
 		}
 		
-		this.state.onReturn(cancel ? null : newEvent);
+		if (isBefore(date, this.state.habitStartDate) && !isSameDate(date, this.state.habitStartDate)){
+			alert("The date must be after the habit was supposed to start");
+			return null;
+		}
+		
+		let location = new Location(this.state.locationInputLat, this.state.locationInputLong);
+		// TODO: if location is invalid, set location = null;
+		
+		// update the old event's details
+		this.state.event.setComment(this.state.commentInput);
+		this.state.event.setPhoto(this.state.photoInput);
+		this.state.event.setDate(date);
+		this.state.event.setLocation(location);
+		
+		this.state.onReturn(this.state.event);
 	}
 	
 	getConfirmButtonText(){
