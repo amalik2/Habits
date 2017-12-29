@@ -17,17 +17,24 @@ export default class HabitView extends Component {
 	 * Create a new HabitView object
 	 * @param props - Contains:
 	 * @param {void} onReturn - callback function when this view is exited
-	 * @param {boolean} validateTitle - callback function for validating whether a habit title is valid or not
+	 * @param {boolean(String)} validateTitle - callback function for validating whether a habit title is valid or not
 	 */
 	constructor(props){
 		super(props);
 		this.state = {
+			// {String} the input text state for the date field
 			dateInputText: "",
+			// {String} the input text state for the title field
 			titleInputText: "",
+			// {String} the input text state for the reason field
 			reasonInputText: "",
+			// {[boolean]} status of whether each day of the week is checked or not
 			daysOfWeekChecked: [],
 			
+			// {void} callback function when this view is exited
 			onReturn: props.onReturn,
+			
+			// {boolean(String)} callback function for validating whether a habit title is valid or not
 			validateTitle: props.validateTitle
 		};
 		
@@ -94,24 +101,40 @@ export default class HabitView extends Component {
 		this.state.onReturn(newHabit);
 	}
 	
+	/**
+	 * Handle the habit title input field being changed
+	 * @param event - the input change event triggering this call
+	 */
 	onTitleChanged(event){
 		this.setState({
 			titleInputText: event.target.value
 		});
 	}
 	
+	/**
+	 * Handle the habit reason input field being changed
+	 * @param event - the input change event triggering this call
+	 */
 	onReasonChanged(event){
 		this.setState({
 			reasonInputText: event.target.value
 		});
 	}
 	
+	/**
+	 * Handle the habit date input field being changed
+	 * @param event - the input change event triggering this call
+	 */
 	onDateChanged(event){
 		this.setState({
 			dateInputText: event.target.value
 		});
 	}
 	
+	/**
+	 * Handle one of the days the habit will take place on being changed
+	 * @param {Number} day - the day that had it's status changed
+	 */
 	handleDayChanged(day){
 		
 		var list = this.state.daysOfWeekChecked;
@@ -124,6 +147,9 @@ export default class HabitView extends Component {
 		});
 	}
 	
+	/**
+	 * @return {String} the text to display on the confirm button
+	 */
 	getConfirmButtonText(){
 		return "Create";
 	}

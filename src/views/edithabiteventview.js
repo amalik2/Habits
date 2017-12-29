@@ -15,7 +15,7 @@ export default class EditEventView extends EventView {
 	 * @param {String} habitTitle - the title of the habit this event is a part of
 	 * @param {Date} startDate - the date the habit was meant to start on
 	 * @param {void} onReturn - callback function for when the view is exited
-	 * @param {HabitEvent} event - the habit event that is being edited
+	 * @param {HabitEvent!} event - the habit event that is being edited
 	 */
 	constructor(props){
 		super(props);
@@ -62,6 +62,9 @@ export default class EditEventView extends EventView {
 		this.state.onReturn(this.state.event);
 	}
 	
+	/**
+	 * @return {String} the text to display on the confirm button
+	 */
 	getConfirmButtonText(){
 		return "Edit";
 	}

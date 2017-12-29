@@ -80,36 +80,52 @@ export default class EventView extends Component {
 		let location = new Location(this.state.locationInputLat, this.state.locationInputLong);
 		// TODO: if location is invalid, set location = null;
 		
-		// create new event
-		let newEvent = new HabitEvent(this.state.commentInput, date, this.state.photoInput, location);
-	
-		this.state.onReturn(newEvent);
+		this.state.onReturn(new HabitEvent(this.state.commentInput, date, this.state.photoInput, location));
 	}
 	
+	/**
+	 * Handle the habit event comment input field being changed
+	 * @param event - the input change event triggering this call
+	 */
 	commentChanged(event){
 		this.setState({
 			commentInput: event.target.value
 		});
 	}
 	
+	/**
+	 * Handle the habit event date input field being changed
+	 * @param event - the input change event triggering this call
+	 */
 	dateChanged(event){
 		this.setState({
 			dateInput: event.target.value
 		});
 	}
 	
+	/**
+	 * Handle the habit event latitude input field being changed
+	 * @param event - the input change event triggering this call
+	 */
 	latitudeChanged(event){
 		this.setState({
 			locationInputLat: event.target.value
 		});
 	}
 	
+	/**
+	 * Handle the habit event longituide input field being changed
+	 * @param event - the input change event triggering this call
+	 */
 	longitudeChanged(event){
 		this.setState({
 			locationInputLong: event.target.value
 		});
 	}
 	
+	/**
+	 * @return {String} the text to display on the confirm button
+	 */
 	getConfirmButtonText(){
 		return "Create";
 	}

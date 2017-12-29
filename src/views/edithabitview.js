@@ -11,11 +11,12 @@ export default class EditHabitView extends HabitView {
 	 * Create a new HabitView object
 	 * @param props - Contains:
 	 * @param {void} onReturn - callback function when this view is exited
-	 * @param {boolean} validateTitle - callback function for validating whether a habit title is valid or not
-	 * @param {Habit} habit - the habit being edited (not null)
+	 * @param {boolean(String)} validateTitle - callback function for validating whether a habit title is valid or not
+	 * @param {Habit!} habit - the habit being edited
 	 */
 	constructor(props){
 		super(props);
+		// the habit being edited
 		this.state.habit = props.habit;
 		this.state.dateInputText = formatDate(this.state.habit.getStartDate());
 		this.state.titleInputText = this.state.habit.getTitle();
@@ -70,6 +71,9 @@ export default class EditHabitView extends HabitView {
 		this.state.onReturn(newHabit);
 	}
 	
+	/**
+	 * @return {String} the text to display on the confirm button
+	 */
 	getConfirmButtonText(){
 		return "Edit";
 	}
