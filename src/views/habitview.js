@@ -34,60 +34,60 @@ export default class HabitView extends Component {
 		
 		this.state.dateInputText = formatDate(new Date());
 		
-		this.buttonClicked = this.buttonClicked.bind(this);
+		this.onCancelClicked = this.onCancelClicked.bind(this);
+		this.onConfirmClicked = this.onConfirmClicked.bind(this);
 		this.onTitleChanged = this.onTitleChanged.bind(this);
 		this.onReasonChanged = this.onReasonChanged.bind(this);
 		this.onDateChanged = this.onDateChanged.bind(this);
 		this.handleDayChanged = this.handleDayChanged.bind(this);
 	}
 	
+	onCancelClicked(event){
+		this.state.onReturn(null);
+	}
+	
 	/**
-	 * Handle the user clicking the cancel or confirm button
-	 * @param event the event triggered by the button click
-	 * @return the habit if confirm was clicked, or null otherwise
-	 * @return undefined if confirm was clicked but the habit information was invalid
+	 * Handle the user clicking confirm button
+	 * @param event - the event triggered by the button click
+	 * @return {Habit} the new habit if confirm was clicked and the habit information was valid, null otherwise
 	 */
-	buttonClicked(event){
-		
-		const cancel = event.target.value === "Return";
+	onConfirmClicked(event){
 		
 		// the habit that will be returned if cancel is false
 		let newHabit = null;
 		
 		// if the title is invalid, or a duplicate, prevent it from being used
-		if (!cancel){
-			if (!this.state.validateTitle(this.state.titleInputText)){
-				alert("The title was taken, or it was invalid");
+		if (!this.state.validateTitle(this.state.titleInputText)){
+			alert("The title was taken, or it was invalid");
+			return;
+		} else {
+		
+			let date = new Date(this.state.dateInputText);
+			if (!isValid(date)){
+				alert("The date was invalid");
 				return;
-			} else {
-			
-				let date = new Date(this.state.dateInputText);
-				if (!isValid(date)){
-					alert("The date was invalid");
-					return;
-				}
-				
-				// days of the week the habit will occur on
-				let days = [];
-				for (let i = 0; i < this.state.daysOfWeekChecked.length; ++i){
-					if (this.state.daysOfWeekChecked[i]){
-						days.push(i);
-					}
-				}
-				if (days.length === 0){
-					alert("No days of the week were selected");
-					return;
-				}
-				
-				// create new habit
-				newHabit = new Habit(this.state.titleInputText, this.state.reasonInputText, date, days);
-				this.setState({
-					habit: newHabit
-				});
 			}
+			
+			// days of the week the habit will occur on
+			let days = [];
+			for (let i = 0; i < this.state.daysOfWeekChecked.length; ++i){
+				if (this.state.daysOfWeekChecked[i]){
+					days.push(i);
+				}
+			}
+			if (days.length === 0){
+				alert("No days of the week were selected");
+				return;
+			}
+			
+			// create new habit
+			newHabit = new Habit(this.state.titleInputText, this.state.reasonInputText, date, days);
+			this.setState({
+				habit: newHabit
+			});
 		}
 		
-		this.state.onReturn(cancel ? null : newHabit);
+		this.state.onReturn(newHabit);
 	}
 	
 	onTitleChanged(event){
@@ -151,8 +151,8 @@ export default class HabitView extends Component {
 				</label>
 				<br />
 			</form>
-			<button onClick={this.buttonClicked} value="Create">{this.getConfirmButtonText()}</button>
-			<button onClick={this.buttonClicked} value="Return">Return</button>
+			<button onClick={this.onConfirmClicked} value="Create">{this.getConfirmButtonText()}</button>
+			<button onClick={this.onCancelClicked} value="Return">Return</button>
 			</div>
 		);
 	}
