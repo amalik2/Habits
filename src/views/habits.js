@@ -9,6 +9,7 @@ import {isAlphanumeric} from '../utilities/stringutilities';
 
 import User from '../models/user';
 import HabitView from './habitview';
+import EditHabitView from './edithabitview';
 
 /**
  * Displays information about all of the habits the user has created, and allows them to create
@@ -82,8 +83,10 @@ export default class HabitsPage extends Component {
 	
 	render(){
 		
-		if (this.state.editHabit != null || this.state.createHabit){
-			return <HabitView habit={this.state.editHabit} onReturn={this.onReturn} validateTitle={this.isValidTitle} />;
+		if (this.state.createHabit){
+			return <HabitView habit={null} onReturn={this.onReturn} validateTitle={this.isValidTitle} />;
+		} else if (this.state.editHabit != null){
+			return <EditHabitView habit={this.state.editHabit} onReturn={this.onReturn} validateTitle={this.isValidTitle} />;
 		}
 		
 		return (

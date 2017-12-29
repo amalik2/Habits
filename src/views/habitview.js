@@ -16,7 +16,7 @@ export default class HabitView extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			// the habit being displayed (can be null)
+			// the habit being displayed
 			habit: props.habit,
 			
 			dateInputText: "",
@@ -32,17 +32,7 @@ export default class HabitView extends Component {
 		for (let i = 0; i < 7; ++i)
 			this.state.daysOfWeekChecked.push(false);
 		
-		if (this.state.habit != null){
-			this.state.dateInputText = formatDate(this.state.habit.getStartDate());
-			this.state.titleInputText = this.state.habit.getTitle();
-			this.state.reasonInputText = this.state.habit.getReason();
-			
-			for (let i of this.state.habit.getDaysOfWeek())
-				this.state.daysOfWeekChecked[i] = true;
-			
-		} else {
-			this.state.dateInputText = formatDate(new Date());
-		}
+		this.state.dateInputText = formatDate(new Date());
 		
 		this.buttonClicked = this.buttonClicked.bind(this);
 		this.onTitleChanged = this.onTitleChanged.bind(this);
@@ -66,7 +56,7 @@ export default class HabitView extends Component {
 		
 		// if the title is invalid, or a duplicate, prevent it from being used
 		if (!cancel){
-			if ((!this.state.validateTitle(this.state.titleInputText) && (this.state.habit == null || this.state.habit.getTitle() !== this.state.titleInputText))){
+			if (!this.state.validateTitle(this.state.titleInputText)){
 				alert("The title was taken, or it was invalid");
 				return;
 			} else {
@@ -90,19 +80,10 @@ export default class HabitView extends Component {
 				}
 				
 				// create new habit
-				if (this.state.habit == null){
-					newHabit = new Habit(this.state.titleInputText, this.state.reasonInputText, date, days);
-					this.setState({
-						habit: newHabit
-					});
-				} else {
-					// update the old habit's details
-					this.state.habit.setTitle(this.state.titleInputText);
-					this.state.habit.setReason(this.state.reasonInputText);
-					this.state.habit.setStartDate(date);
-					this.state.habit.setDaysOfWeek(days);
-					newHabit = this.state.habit;
-				}
+				newHabit = new Habit(this.state.titleInputText, this.state.reasonInputText, date, days);
+				this.setState({
+					habit: newHabit
+				});
 			}
 		}
 		
@@ -139,9 +120,11 @@ export default class HabitView extends Component {
 		});
 	}
 	
+	getConfirmButtonText(){
+		return "Create";
+	}
+	
 	render(){
-		
-		var buttonText = (this.state.habit == null) ? "Create" : "Edit";
 		
 		return (
 			<div>
@@ -168,7 +151,7 @@ export default class HabitView extends Component {
 				</label>
 				<br />
 			</form>
-			<button onClick={this.buttonClicked} value="Create">{buttonText}</button>
+			<button onClick={this.buttonClicked} value="Create">{this.getConfirmButtonText()}</button>
 			<button onClick={this.buttonClicked} value="Return">Return</button>
 			</div>
 		);
