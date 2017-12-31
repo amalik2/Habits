@@ -2,8 +2,6 @@ import EventView from '../views/eventview';
 
 import Location from '../models/location';
 
-import {formatDate, isValid, isBefore, isSameDate} from '../utilities/dateutilities';
-
 /**
  * Allows the user to edit a habit event's details
  */
@@ -31,35 +29,24 @@ export default class EditEventView extends EventView {
 	/**
 	 * Handle the user clicking the confirm button
 	 * @param event - the event triggered by the button click
-	 * @return {HabitEvent} edited habit event if all of the habit event's information was valid, null otherwise
 	 */
 	onConfirmClicked(event){
 		
 		let date = new Date(this.state.dateInput);
-		if (!isValid(date)){
-			alert("The date was invalid");
-			return null;
+		
+		if (this.validateDates(date)){
+			let location = new Location(this.state.locationInputLat, this.state.locationInputLong);
+			// TODO: if location is invalid, set location = null;
+			
+			// update the old event's details
+			this.state.event.setComment(this.state.commentInput);
+			this.state.event.setPhoto(this.state.photoInput);
+			this.state.event.setDate(date);
+			this.state.event.setLocation(location);
+			
+			this.state.onReturn(this.state.event);
 		}
-		if (date.getTime() > (new Date()).getTime()){
-			alert("The date was in the future");
-			return null;
-		}
 		
-		if (isBefore(date, this.state.habitStartDate) && !isSameDate(date, this.state.habitStartDate)){
-			alert("The date must be after the habit was supposed to start");
-			return null;
-		}
-		
-		let location = new Location(this.state.locationInputLat, this.state.locationInputLong);
-		// TODO: if location is invalid, set location = null;
-		
-		// update the old event's details
-		this.state.event.setComment(this.state.commentInput);
-		this.state.event.setPhoto(this.state.photoInput);
-		this.state.event.setDate(date);
-		this.state.event.setLocation(location);
-		
-		this.state.onReturn(this.state.event);
 	}
 	
 	/**

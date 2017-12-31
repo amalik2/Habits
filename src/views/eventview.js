@@ -56,31 +56,43 @@ export default class EventView extends Component {
 	}
 	
 	/**
-	 * Handle the user clicking the confirm button
-	 * @param event - the event triggered by the button click
-	 * @return {HabitEvent} new habit event if all of the habit event's information was valid, null otherwise
+	 * Gets whether the input date is valid for the event or not
+	 * @param {Date} date - the date to determine the validity of for the habit event to have
+	 * @return {Boolean} whether the input date is valid or not
 	 */
-	onConfirmClicked(event){
+	validateDates(date){
 		
-		let date = new Date(this.state.dateInput);
 		if (!isValid(date)){
 			alert("The date was invalid");
-			return null;
+			return false;
 		}
 		if (date.getTime() > (new Date()).getTime()){
 			alert("The date was in the future");
-			return null;
+			return false;
 		}
 		
 		if (isBefore(date, this.state.habitStartDate) && !isSameDate(date, this.state.habitStartDate)){
 			alert("The date must be after the habit was supposed to start");
-			return null;
+			return false;
 		}
 		
-		let location = new Location(this.state.locationInputLat, this.state.locationInputLong);
-		// TODO: if location is invalid, set location = null;
+		return true;
+	}
+	
+	/**
+	 * Handle the user clicking the confirm button
+	 * @param event - the event triggered by the button click
+	 */
+	onConfirmClicked(event){
 		
-		this.state.onReturn(new HabitEvent(this.state.commentInput, date, this.state.photoInput, location));
+		let date = new Date(this.state.dateInput);
+		
+		if (this.validateDates(date)){
+			let location = new Location(this.state.locationInputLat, this.state.locationInputLong);
+			// TODO: if location is invalid, set location = null;
+			
+			this.state.onReturn(new HabitEvent(this.state.commentInput, date, this.state.photoInput, location));
+		}
 	}
 	
 	/**

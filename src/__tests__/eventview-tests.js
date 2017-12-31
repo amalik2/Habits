@@ -21,6 +21,8 @@ test("Cancel button", () => {
 
 test("Confirm button", () => {
 	
+	// TODO: spy = onReturn, check invalid inputs
+	
 	const spy = jest.spyOn(EventView.prototype, 'onConfirmClicked');
 	const component = shallow(
 		<EventView habitTitle="Habit Title" startDate={new Date()} onReturn={() => {}} />,
