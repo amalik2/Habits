@@ -2,11 +2,7 @@ import React from 'react';
 import EventView from '../views/eventview';
 import renderer from 'react-test-renderer';
 
-import Habit from '../models/habit';
-import HabitEvent from '../models/habitevent';
-import Location from '../models/location';
-
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 
 test("Cancel button", () => {
 	const spy = jest.spyOn(EventView.prototype, 'onCancelClicked');
