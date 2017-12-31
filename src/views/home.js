@@ -39,7 +39,7 @@ export default class HomePage extends Component {
 		};
 		
 		for (var i = 0; i < 25; ++i)
-			this.state.user.addHabit(new Habit("First" + i, "no reason", new Date(), [0, 1,2,3]));
+			this.state.user.addHabit(new Habit("First" + i, "no reason", new Date(), [0, 1, 2, 3, 4, 5, 6]));
 		
 		this.onSideBarItemClicked = this.onSideBarItemClicked.bind(this);
 		this.onTodaysTaskChecked = this.onTodaysTaskChecked.bind(this);
@@ -93,7 +93,7 @@ export default class HomePage extends Component {
 		if (index === 0){ // home
 		
 			if (this.state.completingHabit !== ""){
-				items.push(<EventView key="event" event={null} habitTitle={this.state.completingHabit} startDate={this.state.user.getHabitByTitle(this.state.completingHabit).getStartDate()} onReturn={this.onEventReturn} />);
+				items.push(<EventView key="event" habitTitle={this.state.completingHabit} startDate={this.state.user.getHabitByTitle(this.state.completingHabit).getStartDate()} onReturn={this.onEventReturn} />);
 			} else {
 				items.push(
 					<p key="welcome" className="App-intro">
