@@ -60,44 +60,6 @@ import { shallow, mount } from 'enzyme';
 	//expect(checkbox.props().checked).toBe(true);
 	expect(component.state().completingHabit).toBe("");
 	
-	// incomplete information: missing valid date
-	/*dateInput.props().value = "abc";
-	//dateInput.simulate('change', {target: {value: "abc"}});
-	// TODO: fix this not working (test it in a separate file for EventView)
-	//expect(eventView.state().dateInput).toBe("abc");
-	console.log(dateInput.debug());
-	confirmButton.simulate('click');
-	expect(habit.getEvents().length == 0);
-	expect(component.state().completingHabit).toBe(habit.getTitle());
-	dateInput.instance().value = "Dec 21 XYZ";
-	
-	//dateInput.simulate('change', {target: {value: "Dec 21 XYZ"}});
-	//expect(dateInput.props().value).toBe("Dec 21 XYZ");
-	
-	confirmButton.simulate('click');
-	expect(component.state().completingHabit).toBe(habit.getTitle());
-	expect(habit.getEvents().length == 0);
-	// don't allow an event to be made on a date before the habit was supposed to start
-	dateInput.simulate('change', {target: {value: "Dec 21 2012"}});
-	confirmButton.simulate('click');
-	expect(habit.getEvents().length == 0);
-	expect(component.state().completingHabit).toBe(habit.getTitle());
-	
-	// TODO: complete successfully on a different date
-	expect(checkbox.props().checked).toBe(false);
-	expect(component.state().completingHabit).toBe("");
-	
-	// complete successfully on same date
-	confirmButton.simulate('click');
-	expect(habit.getEvents().length == 1);
-	expect(checkbox.props().checked).toBe(true);
-	expect(component.state().completingHabit).toBe("");
-	checkbox.simulate('change');
-	// prevent another event from being made today
-	expect(checkbox.props().checked).toBe(true);
-	expect(component.state().completingHabit).toBe("");
-	*/
-	
 	// make sure all of the other checkboxes are still clickable
 	for (let i = 0; i < todaysHabitsInputs.length; ++i){
 		if (i != 1){
