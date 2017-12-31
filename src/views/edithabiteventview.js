@@ -2,6 +2,8 @@ import EventView from '../views/eventview';
 
 import Location from '../models/location';
 
+import {formatDate} from '../utilities/dateutilities';
+
 /**
  * Allows the user to edit a habit event's details
  */
