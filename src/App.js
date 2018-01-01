@@ -19,9 +19,11 @@ class App extends Component {
 		this.state = {
 			// {User} logged in user
 			loggedIn: null,
+			
 			// {String} the current entry in the name input field
 			name: ""
 		};
+		
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.nameChange = this.nameChange.bind(this);
 		this.signOut = this.signOut.bind(this);
@@ -90,7 +92,7 @@ class App extends Component {
 				</div>
 			);
 		} else {
-		  return (
+			return (
 			  <div className="App">
 				{this.getHeader()}
 				<form onSubmit={this.handleSubmit}>
