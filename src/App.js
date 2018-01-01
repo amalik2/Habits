@@ -9,6 +9,9 @@ import HomePage from './views/home';
 
 import User from './models/user';
 
+/**
+ * Main application view, allowing the user to sign in to the system
+ */
 class App extends Component {
 	
 	constructor(props){
@@ -26,6 +29,10 @@ class App extends Component {
 		getQueryable();
 	}
 	
+	/**
+	 * Handles the user selecting the sign in button
+	 * @param event - the button click event that led to this being called
+	 */
 	handleSubmit(event){
 		
 		if (this.state.name.length === 0){
@@ -43,16 +50,28 @@ class App extends Component {
 		});
 	}
 	
+	/**
+	 * Handles the user changing the name input field text
+	 * @param event - the input change event that triggered this function call
+	 */
 	nameChange(event){
 		this.setState({
 			name: event.target.value
 		});
 	}
 	
+	/**
+	 * Signs the user out of the system
+	 */
 	signOut(){
-		this.setState({loggedIn: null});
+		this.setState({
+			loggedIn: null
+		});
 	}
 	
+	/**
+	 * @return the header that will be displayed across all pages in the application
+	 */
 	getHeader(){
 		return (
 			<header className="App-header">
@@ -62,15 +81,15 @@ class App extends Component {
 		);
 	}
 	
-  render() {
-	  if (this.state.loggedIn != null){
+	render() {
+		if (this.state.loggedIn != null){
 		  return (
 				<div align='center'>
 					{this.getHeader()}
 					<HomePage user={this.state.loggedIn} signOut={this.signOut} />
 				</div>
 			);
-	  } else {
+		} else {
 		  return (
 			  <div className="App">
 				{this.getHeader()}
@@ -82,10 +101,8 @@ class App extends Component {
 				</form>
 			  </div>
 			);
-	  }
-	  
-    
-  }
+		}
+	}
 }
 
 export default App;
