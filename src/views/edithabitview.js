@@ -36,7 +36,6 @@ export default class EditHabitView extends HabitView {
 	 /**
 	 * Handle the user clicking the confirm button
 	 * @param event - the event triggered by the button click
-	 * @return {Habit} the altered habit if confirm was clicked and the habit information was valid, undefined otherwise
 	 */
 	onConfirmClicked(event){
 		if (this.validateHabitDetails()){

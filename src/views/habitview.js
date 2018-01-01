@@ -109,7 +109,6 @@ export default class HabitView extends Component {
 	/**
 	 * Handle the user clicking the confirm button
 	 * @param event - the event triggered by the button click
-	 * @return {Habit} the new habit if confirm was clicked and the habit information was valid, undefined otherwise
 	 */
 	onConfirmClicked(event){
 		if (this.validateHabitDetails()){
