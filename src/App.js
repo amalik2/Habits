@@ -7,14 +7,16 @@ import {getQueryable} from './utilities/queryutilities';
 
 import HomePage from './views/home';
 
+import User from './models/user';
+
 class App extends Component {
 	
 	constructor(props){
 		super(props);
 		this.state = {
-			// logged in user
+			// {User} logged in user
 			loggedIn: null,
-			// the current entry in the name input field
+			// {String} the current entry in the name input field
 			name: ""
 		};
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,7 +38,9 @@ class App extends Component {
 			return;
 		}
 		
-		this.setState({loggedIn: this.state.name});
+		this.setState({
+			loggedIn: new User(this.state.name)
+		});
 	}
 	
 	nameChange(event){

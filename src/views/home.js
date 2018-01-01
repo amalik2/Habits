@@ -26,15 +26,15 @@ export default class HomePage extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			// the currently signed in user
-			user: new User(props.user),
-			// the index of the menu the user is currently viewing (corresponds to an option in sideBarOptions)
+			// {User} the currently signed in user
+			user: props.user,
+			// {Number} the index of the menu the user is currently viewing (corresponds to an option in sideBarOptions)
 			menuIndex: 0,
 			
-			// the function to call when the user selects the sign out button
+			// {void()} the function to call when the user selects the sign out button
 			signOut: props.signOut,
 			
-			// title of the habit the user is currently creating an event for (empty string means none)
+			// {String} title of the habit the user is currently creating an event for (empty string means none)
 			completingHabit: ""
 		};
 		
