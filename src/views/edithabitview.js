@@ -36,20 +36,16 @@ export default class EditHabitView extends HabitView {
 	 /**
 	 * Handle the user clicking the confirm button
 	 * @param event - the event triggered by the button click
-	 * @return {Habit} the altered habit if confirm was clicked and the habit information was valid, null otherwise
+	 * @return {Habit} the altered habit if confirm was clicked and the habit information was valid, undefined otherwise
 	 */
 	onConfirmClicked(event){
-		
-		let newHabit = null;
 		if (this.validateHabitDetails()){
 			this.state.habit.setTitle(this.state.titleInputText);
 			this.state.habit.setReason(this.state.reasonInputText);
 			this.state.habit.setStartDate(new Date(this.state.dateInputText));
 			this.state.habit.setDaysOfWeek(this.getSelectedDays());
-			newHabit = this.state.habit;
+			this.state.onReturn(this.state.habit);
 		}
-		
-		this.state.onReturn(newHabit);
 	}
 	
 	/**
