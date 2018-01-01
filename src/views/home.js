@@ -17,17 +17,25 @@ import Location from '../models/location';
 import {isSameDate} from '../utilities/dateutilities';
 
 // options in the side bar menu
-const sideBarOptions = ["Home","Habits","Habit History", "Followed Users", "Follow Requests", "Search Users", "Sign Out"];
+const sideBarOptions = ["Home","Habits", "Habit History", "Followed Users", "Follow Requests", "Search Users", "Sign Out"];
 
 /**
  * Displays information the user sees immediately after signing in
  */
 export default class HomePage extends Component {
+	
+	/**
+	 * Construct a new HomePage object
+	 * @param props - React properties object consisting of:
+	 * @param {User} user - the signed in user
+	 * @param {void()} signOut - callback function for when the user attempts to sign out
+	 */
 	constructor(props){
 		super(props);
 		this.state = {
 			// {User} the currently signed in user
 			user: props.user,
+			
 			// {Number} the index of the menu the user is currently viewing (corresponds to an option in sideBarOptions)
 			menuIndex: 0,
 			
@@ -46,6 +54,10 @@ export default class HomePage extends Component {
 		this.onEventReturn = this.onEventReturn.bind(this);
 	}
 	
+	/**
+	 * Handle the user clicking one of the options in the sidebar menu
+	 * @param {String} item - the text on the clicked option
+	 */
 	onSideBarItemClicked(item){
 		
 		const index = sideBarOptions.findIndex((menu) => (menu === item))
@@ -62,6 +74,10 @@ export default class HomePage extends Component {
 		}
 	}
 	
+	/**
+	 * Handle the user checking one of the boxes in the today's tasks list
+	 * @param {String} habitName - the name of the habit that was checked
+	 */
 	onTodaysTaskChecked(habitName){
 		
 		// already completed today, don't allow it to be completed again
@@ -74,6 +90,10 @@ export default class HomePage extends Component {
 		});
 	}
 	
+	/**
+	 * Handle the user return from completing a new event
+	 * @param {HabitEvent} event - the habit event that the user created (null if they cancelled creation)
+	 */
 	onEventReturn(event){
 		if (event != null){
 			this.state.user.getHabitByTitle(this.state.completingHabit).addEvent(event);
@@ -84,7 +104,7 @@ export default class HomePage extends Component {
 	}
 	
 	/** Add all items to display for the current page to the input list
-	 * @param items the list of all items to display
+	 * @param items - the list of all items to display
 	 */
 	getUniqueItemsToDisplay(items){
 		

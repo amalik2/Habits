@@ -44,7 +44,9 @@ class App extends Component {
 	}
 	
 	nameChange(event){
-		this.setState({name: event.target.value});
+		this.setState({
+			name: event.target.value
+		});
 	}
 	
 	signOut(){
@@ -61,7 +63,6 @@ class App extends Component {
 	}
 	
   render() {
-	  //<button onClick={this.signOut}>Sign Out</button>
 	  if (this.state.loggedIn != null){
 		  return (
 				<div align='center'>
